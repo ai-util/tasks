@@ -112,9 +112,15 @@ const moveTask = async (taskId, newState) => {
       await api.put(`/api/tasks/${taskId}`, {
         title: task.title,
         description: task.description,
-        state: newState,
-        priority: task.priority || 'medium'
+        state: newState
       });
+      
+      // Lokale Task-Liste aktualisieren
+      const updatedTask = { ...task, state: newState };
+      const index = tasks.value.findIndex(t => t.id === taskId);
+      if (index !== -1) {
+        tasks.value[index] = updatedTask;
+      }
     }
   } catch (error) {
     console.error('Fehler beim Verschieben des Tasks:', error);

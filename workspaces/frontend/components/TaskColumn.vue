@@ -53,11 +53,7 @@ const onDrop = (event) => {
   const sourceState = event.dataTransfer.getData('sourceState');
   
   if (sourceState !== props.title) {
-    emit('move', {
-      taskId,
-      sourceState,
-      targetState: props.title
-    });
+    emit('move', taskId, props.title);
   }
 };
 
