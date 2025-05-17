@@ -1,8 +1,8 @@
 <template>
   <div v-if="modelValue" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-2xl mx-4">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-bold">
+    <div class="bg-white rounded-lg p-8 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">
           {{ task.id ? 'Task bearbeiten' : 'Neuer Task' }}
         </h2>
         <button
@@ -16,7 +16,7 @@
         </button>
       </div>
 
-      <form @submit.prevent="saveTask" class="space-y-4">
+      <form @submit.prevent="saveTask" class="space-y-6">
         <div>
           <label for="title" class="block text-sm font-medium text-gray-700">Titel</label>
           <input
@@ -35,7 +35,7 @@
           <textarea
             id="description"
             v-model="formData.description"
-            rows="4"
+            rows="12"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             :class="{ 'border-red-500': errors.description }"
           ></textarea>
