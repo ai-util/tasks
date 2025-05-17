@@ -1,7 +1,6 @@
 ---
 title: UI Implementierung
 state: In Progress
-priority: high
 ---
 # UI-Implementierung
 

@@ -1,7 +1,6 @@
 ---
 title: Board Konfiguration
 state: Backlog
-priority: high
 ---
 # Board-Konfiguration
 

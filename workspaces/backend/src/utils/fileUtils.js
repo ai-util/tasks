@@ -39,7 +39,6 @@ export async function writeTaskFile(taskId, metadata, description) {
   const yamlContent = `---
 title: ${metadata.title}
 state: ${metadata.state}
-priority: ${metadata.priority}
 ---
 ${description}`;
   await writeFile(filePath, yamlContent, 'utf8');

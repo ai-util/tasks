@@ -1,7 +1,6 @@
 ---
 title: Daten Synchronisation
 state: In Progress
-priority: high
 ---
 # Daten-Synchronisation
 

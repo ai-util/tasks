@@ -58,22 +58,6 @@
           <p v-if="errors.state" class="mt-1 text-sm text-red-600">{{ errors.state }}</p>
         </div>
 
-        <div>
-          <label for="priority" class="block text-sm font-medium text-gray-700">Priorität</label>
-          <select
-            id="priority"
-            v-model="formData.priority"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            :class="{ 'border-red-500': errors.priority }"
-          >
-            <option value="low">Niedrig</option>
-            <option value="medium">Mittel</option>
-            <option value="high">Hoch</option>
-          </select>
-          <p v-if="errors.priority" class="mt-1 text-sm text-red-600">{{ errors.priority }}</p>
-        </div>
-
         <div class="flex justify-end space-x-3 mt-6">
           <button
             type="button"
@@ -121,8 +105,7 @@ const emit = defineEmits(['update:modelValue', 'saved', 'error']);
 const formData = ref({
   title: '',
   description: '',
-  state: '',
-  priority: 'medium'
+  state: ''
 });
 
 const errors = ref({});
@@ -135,8 +118,7 @@ watch(() => props.task, (newTask) => {
     formData.value = {
       title: '',
       description: '',
-      state: props.states[0] || '',
-      priority: 'medium'
+      state: props.states[0] || ''
     };
   }
   errors.value = {};
@@ -156,11 +138,6 @@ const validateForm = () => {
     isValid = false;
   }
 
-  if (!formData.value.priority) {
-    errors.value.priority = 'Bitte wählen Sie eine Priorität aus';
-    isValid = false;
-  }
-
   return isValid;
 };
 
@@ -171,22 +148,16 @@ const saveTask = async () => {
 
   isSaving.value = true;
   try {
+    const taskData = {
+      title: formData.value.title,
+      description: formData.value.description,
+      state: formData.value.state
+    };
+
     if (props.task.id) {
-      const taskData = {
-        title: formData.value.title,
-        description: formData.value.description,
-        state: formData.value.state,
-        priority: formData.value.priority
-      };
       await api.put(`/api/tasks/${props.task.id}`, taskData);
       emit('saved', { type: 'success', message: 'Task erfolgreich aktualisiert' });
     } else {
-      const taskData = {
-        title: formData.value.title,
-        description: formData.value.description,
-        state: formData.value.state,
-        priority: formData.value.priority
-      };
       await api.post('/api/tasks', taskData);
       emit('saved', { type: 'success', message: 'Task erfolgreich erstellt' });
     }
