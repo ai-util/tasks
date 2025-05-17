@@ -1,22 +1,14 @@
 {
-  "name": "ai-util-tasks",
-  "version": "0.1.0",
+  "name": "tasks",
+  "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "workspaces/frontend"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "vue": "^3.3.0",
-    "pinia": "^2.1.0",
-    "yaml": "^2.3.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^4.5.0",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.0",
-    "tailwindcss": "^3.3.0",
-    "vite": "^5.0.0"
+    "start": "npm run start --workspace=workspaces/frontend",
+    "dev": "npm run dev --workspace=workspaces/frontend",
+    "build": "npm run build --workspace=workspaces/frontend",
+    "test": "npm run test --workspace=workspaces/frontend"
   }
 } 
