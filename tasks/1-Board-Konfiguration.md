@@ -8,7 +8,7 @@ state: In Progress
 
 - Laden der Board-Konfiguration aus `tasks/board.yaml`
 - Anzeige und Bearbeitung des Board-Titels
-- Rendering von Spalten entsprechend der in `board.yaml` definierten States
+- Rendering von Spalten entsprechend der in `board.yaml` definierten Task-States
 - "Unknown state" Sektion für fehlkonfigurierte oder undefinierte Task-States
 
 ## Implementierung
@@ -66,4 +66,12 @@ state: In Progress
 - `board:updated` - Board-Konfiguration wurde aktualisiert
 - `state:added` - Neuer State wurde hinzugefügt
 - `state:removed` - State wurde entfernt
-- `state:renamed` - State wurde umbenannt 
+- `state:renamed` - State wurde umbenannt
+
+## Status
+- [x] Backend-API für Board-Operationen
+- [x] YAML-Parsing und -Validierung
+- [x] WebSocket-Events für Board-Updates
+- [ ] Frontend-Integration der Board-API
+- [ ] UI für Board-Konfiguration
+- [ ] Validierung und Fehlerbehandlung 

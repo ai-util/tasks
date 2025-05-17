@@ -3,12 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "workspaces/frontend"
+    "workspaces/frontend",
+    "workspaces/backend"
   ],
   "scripts": {
-    "start": "npm run start --workspace=workspaces/frontend",
-    "dev": "npm run dev --workspace=workspaces/frontend",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:frontend": "npm run start --workspace=workspaces/frontend",
+    "start:backend": "npm run start --workspace=workspaces/backend",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace=workspaces/frontend",
+    "dev:backend": "npm run dev --workspace=workspaces/backend",
     "build": "npm run build --workspace=workspaces/frontend",
     "test": "npm run test --workspace=workspaces/frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 } 
