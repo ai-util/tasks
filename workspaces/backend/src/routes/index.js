@@ -48,10 +48,9 @@ router.get('/api/tasks', async (req, res) => {
 router.post('/api/tasks', async (req, res) => {
   try {
     const { title, description, state } = req.body;
-    const id = Date.now().toString();
     const metadata = { title, state };
-    await writeTaskFile(id, metadata, description);
-    res.json({ success: true, id });
+    await writeTaskFile(title, metadata, description);
+    res.json({ success: true, id: title });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

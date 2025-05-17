@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { io } from 'socket.io-client';
 import axios from 'axios';
 import TaskColumn from './TaskColumn.vue';
@@ -54,7 +54,13 @@ const api = axios.create({
   baseURL: 'http://localhost:3000'
 });
 
-const socket = io('http://localhost:3000');
+// WebSocket-Konfiguration
+const socket = io('http://localhost:3000', {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000
+});
+
 const board = ref({ states: [] });
 const tasks = ref([]);
 const showDialog = ref(false);
@@ -67,26 +73,50 @@ const notification = ref({
 });
 
 // WebSocket Event Listener
-socket.on('taskCreated', (task) => {
-  tasks.value.push(task);
-  showNotification('success', 'Task erstellt', 'Der Task wurde erfolgreich erstellt');
+socket.on('connect', () => {
+  console.log('WebSocket verbunden');
+});
+
+socket.on('disconnect', () => {
+  console.log('WebSocket getrennt');
 });
 
 socket.on('taskUpdated', (updatedTask) => {
+  console.log('Task aktualisiert empfangen:', updatedTask);
   const index = tasks.value.findIndex(t => t.id === updatedTask.id);
   if (index !== -1) {
-    tasks.value[index] = updatedTask;
-    showNotification('success', 'Task aktualisiert', 'Der Task wurde erfolgreich aktualisiert');
+    // Task im Array aktualisieren
+    tasks.value[index] = { ...updatedTask };
+    // Vue's Reaktivität erzwingen
+    tasks.value = [...tasks.value];
+    showNotification('success', 'Task aktualisiert', 'Der Task wurde aktualisiert');
+  } else {
+    console.warn('Task nicht gefunden:', updatedTask.id);
+  }
+});
+
+socket.on('taskCreated', (task) => {
+  console.log('Task erstellt empfangen:', task);
+  // Prüfen ob Task bereits existiert
+  const exists = tasks.value.some(t => t.id === task.id);
+  if (!exists) {
+    tasks.value.push(task);
+    showNotification('success', 'Task erstellt', 'Der Task wurde erstellt');
   }
 });
 
 socket.on('taskDeleted', (taskId) => {
-  tasks.value = tasks.value.filter(t => t.id !== taskId);
-  showNotification('success', 'Task gelöscht', 'Der Task wurde erfolgreich gelöscht');
+  console.log('Task gelöscht empfangen:', taskId);
+  const index = tasks.value.findIndex(t => t.id === taskId);
+  if (index !== -1) {
+    tasks.value.splice(index, 1);
+    showNotification('success', 'Task gelöscht', 'Der Task wurde gelöscht');
+  }
 });
 
 socket.on('boardUpdated', (updatedBoard) => {
-  board.value = updatedBoard;
+  console.log('Board aktualisiert empfangen:', updatedBoard);
+  board.value = { ...updatedBoard };
   showNotification('info', 'Board aktualisiert', 'Das Board wurde aktualisiert');
 });
 
@@ -158,6 +188,11 @@ onMounted(async () => {
     console.error('Fehler beim Laden der Daten:', error);
     showNotification('error', 'Fehler', 'Die Daten konnten nicht geladen werden');
   }
+});
+
+// Cleanup bei Komponenten-Unmount
+onUnmounted(() => {
+  socket.disconnect();
 });
 </script>
 

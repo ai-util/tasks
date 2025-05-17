@@ -15,7 +15,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:5173",
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST", "PUT", "DELETE"]
   }
 });
 
@@ -31,10 +31,10 @@ setupRoutes(app);
 
 // WebSocket-Verbindung
 io.on('connection', (socket) => {
-  console.log('Client connected');
+  console.log('Client verbunden:', socket.id);
   
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
+    console.log('Client getrennt:', socket.id);
   });
 });
 
@@ -43,5 +43,5 @@ setupFileWatcher(io);
 
 const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server läuft auf Port ${PORT}`);
 }); 
