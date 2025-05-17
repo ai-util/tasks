@@ -138,6 +138,196 @@ The `ai-util/tasks` board interface is a Vue.js-based web application that displ
 - Änderungen werden sofort über WebSocket an verbundene Clients übertragen
 - Frontend aktualisiert UI automatisch bei Empfang von WebSocket-Events
 
+### 7.5 Backend-Dateistruktur
+
+```
+server/
+├── src/
+│   ├── index.js              # Hauptanwendungseinstiegspunkt
+│   ├── config/
+│   │   └── config.js         # Server-Konfiguration (Ports, Pfade, etc.)
+│   ├── services/
+│   │   ├── fileWatcher.js    # Dateisystem-Überwachung mit chokidar
+│   │   ├── taskService.js    # Task-bezogene Operationen
+│   │   └── boardService.js   # Board-Konfigurationsoperationen
+│   ├── routes/
+│   │   ├── boardRoutes.js    # Board-bezogene API-Routen
+│   │   └── taskRoutes.js     # Task-bezogene API-Routen
+│   ├── websocket/
+│   │   └── socketHandler.js  # WebSocket-Event-Handler
+│   └── utils/
+│       ├── fileUtils.js      # Dateisystem-Hilfsfunktionen
+│       └── validation.js     # Validierungsfunktionen
+├── package.json
+└── README.md
+```
+
+### 7.6 Frontend-Dateistruktur
+
+```
+src/
+├── main.js                   # Vue-Anwendungseinstiegspunkt
+├── App.vue                   # Hauptkomponente
+├── components/
+│   ├── TaskBoard.vue         # Hauptboard-Komponente
+│   ├── TaskColumn.vue        # Spalten-Komponente
+│   ├── TaskCard.vue          # Task-Karten-Komponente
+│   ├── TaskDialog.vue        # Task-Bearbeitungsdialog
+│   ├── BoardHeader.vue       # Board-Header mit Steuerung
+│   └── StateEditor.vue       # State-Bearbeitungskomponente
+├── stores/
+│   ├── taskStore.js          # Task-State-Management
+│   └── boardStore.js         # Board-State-Management
+├── services/
+│   ├── api.js               # API-Client für Backend-Kommunikation
+│   └── socket.js            # WebSocket-Client-Service
+├── utils/
+│   ├── taskUtils.js         # Task-bezogene Hilfsfunktionen
+│   └── validation.js        # Frontend-Validierung
+└── assets/
+    └── styles/
+        └── main.css         # Globale Styles
+```
+
+### 7.7 Frontend-Dateien und deren Aufgaben
+
+#### `main.js`
+- Vue-Anwendungsinitialisierung
+- Store-Registrierung
+- Socket.io-Client-Initialisierung
+- Globale Komponenten-Registrierung
+
+#### `App.vue`
+- Hauptanwendungslayout
+- Router-Integration (falls benötigt)
+- Globale Fehlerbehandlung
+
+#### `components/TaskBoard.vue`
+- Board-Layout-Management
+- Spalten-Rendering
+- Drag-and-Drop-Integration
+- WebSocket-Event-Handling
+
+#### `components/TaskColumn.vue`
+- Spalten-Rendering
+- Task-Karten-Container
+- Drop-Zone-Funktionalität
+- State-spezifische Logik
+
+#### `components/TaskCard.vue`
+- Task-Daten-Anzeige
+- Drag-Handle
+- Klick-Handler für Bearbeitung
+- Status-Badge
+
+#### `components/TaskDialog.vue`
+- Task-Bearbeitungsformular
+- Frontmatter-Editor
+- Validierung
+- API-Integration für Speichern
+
+#### `components/BoardHeader.vue`
+- Board-Titel-Bearbeitung
+- Steuerungselemente
+- State-Management-Buttons
+
+#### `components/StateEditor.vue`
+- State-Bearbeitungsformular
+- State-Validierung
+- API-Integration für State-Updates
+
+#### `stores/taskStore.js`
+- Task-State-Management
+- API-Integration
+- WebSocket-Event-Handling
+- Task-CRUD-Operationen
+
+#### `stores/boardStore.js`
+- Board-Konfigurations-State
+- API-Integration
+- WebSocket-Event-Handling
+- Board-Update-Logik
+
+#### `services/api.js`
+- Axios-Client-Konfiguration
+- API-Endpunkt-Definitionen
+- Request/Response-Interceptors
+- Fehlerbehandlung
+
+#### `services/socket.js`
+- Socket.io-Client-Konfiguration
+- Event-Handler-Registrierung
+- Reconnection-Logik
+- Event-Emitter-Wrapper
+
+#### `utils/taskUtils.js`
+- Task-Daten-Transformation
+- Frontmatter-Parsing
+- Dateinamen-Generierung
+- Validierungsfunktionen
+
+#### `utils/validation.js`
+- Frontend-Validierungsregeln
+- Fehlermeldungen
+- Format-Validierung
+
+### 7.8 Backend-Dateien und deren Aufgaben
+
+#### `index.js`
+- Express-Server-Initialisierung
+- Middleware-Konfiguration
+- Socket.io-Integration
+- Routen-Registrierung
+- Server-Start
+
+#### `config/config.js`
+- Server-Port-Konfiguration
+- Dateipfad-Konfiguration
+- WebSocket-Konfiguration
+- Umgebungsvariablen
+
+#### `services/fileWatcher.js`
+- Dateisystem-Überwachung mit chokidar
+- Event-Emittierung bei Dateiänderungen
+- Verzeichnisstruktur-Validierung
+
+#### `services/taskService.js`
+- Task-Datei-Operationen (CRUD)
+- Frontmatter-Parsing und -Validierung
+- Dateinamen-Validierung
+- Task-Metadaten-Extraktion
+
+#### `services/boardService.js`
+- Board-Konfigurationsdatei-Verwaltung
+- State-Validierung
+- Board-Metadaten-Verwaltung
+
+#### `routes/boardRoutes.js`
+- GET `/api/board` - Board-Konfiguration abrufen
+- PUT `/api/board` - Board-Konfiguration aktualisieren
+- GET `/api/board/states` - Verfügbare States abrufen
+
+#### `routes/taskRoutes.js`
+- GET `/api/tasks` - Alle Tasks abrufen
+- POST `/api/tasks` - Neuen Task erstellen
+- PUT `/api/tasks/:id` - Task aktualisieren
+- DELETE `/api/tasks/:id` - Task löschen
+
+#### `websocket/socketHandler.js`
+- WebSocket-Verbindungsverwaltung
+- Event-Emittierung für Dateiänderungen
+- Client-Benachrichtigungen
+
+#### `utils/fileUtils.js`
+- Dateisystem-Operationen
+- Pfad-Manipulation
+- Datei-Encoding/Decoding
+
+#### `utils/validation.js`
+- Dateinamen-Validierung
+- Frontmatter-Validierung
+- State-Validierung
+
 ---
 
 ## 8. Design and user interface
