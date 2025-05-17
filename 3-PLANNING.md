@@ -141,7 +141,7 @@ The `ai-util/tasks` board interface is a Vue.js-based web application that displ
 ### 7.5 Backend-Dateistruktur
 
 ```
-server/
+workspaces/backend/
 ├── src/
 │   ├── index.js              # Hauptanwendungseinstiegspunkt
 │   ├── config/
@@ -165,7 +165,7 @@ server/
 ### 7.6 Frontend-Dateistruktur
 
 ```
-src/
+workspaces/frontend/
 ├── main.js                   # Vue-Anwendungseinstiegspunkt
 ├── App.vue                   # Hauptkomponente
 ├── components/
@@ -184,9 +184,15 @@ src/
 ├── utils/
 │   ├── taskUtils.js         # Task-bezogene Hilfsfunktionen
 │   └── validation.js        # Frontend-Validierung
-└── assets/
-    └── styles/
-        └── main.css         # Globale Styles
+├── assets/
+│   └── styles/
+│       └── main.css         # Globale Styles
+├── index.html
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── package.json
+└── package-lock.json
 ```
 
 ### 7.7 Frontend-Dateien und deren Aufgaben
