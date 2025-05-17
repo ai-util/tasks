@@ -109,7 +109,13 @@ const moveTask = async (taskId, newState) => {
   try {
     const task = tasks.value.find(t => t.id === taskId);
     if (task && task.state !== newState) {
-      await api.put(`/api/tasks/${taskId}`, { state: newState });
+      await api.put(`/api/tasks/${taskId}`, {
+        state: newState,
+        metadata: {
+          state: newState,
+          priority: task.priority || 'medium'
+        }
+      });
     }
   } catch (error) {
     console.error('Fehler beim Verschieben des Tasks:', error);
