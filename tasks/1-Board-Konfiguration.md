@@ -1,6 +1,6 @@
 ---
 title: Board Konfiguration
-state: In Progress
+state: Backlog
 ---
 # Board-Konfiguration
 
