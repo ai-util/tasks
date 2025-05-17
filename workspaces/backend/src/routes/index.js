@@ -47,9 +47,11 @@ router.get('/api/tasks', async (req, res) => {
 
 router.post('/api/tasks', async (req, res) => {
   try {
-    const { id, metadata, description } = req.body;
+    const { title, description, state, priority } = req.body;
+    const id = Date.now().toString();
+    const metadata = { title, state, priority };
     await writeTaskFile(id, metadata, description);
-    res.json({ success: true });
+    res.json({ success: true, id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -58,7 +60,8 @@ router.post('/api/tasks', async (req, res) => {
 router.put('/api/tasks/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { metadata, description } = req.body;
+    const { title, description, state, priority } = req.body;
+    const metadata = { title, state, priority };
     await writeTaskFile(id, metadata, description);
     res.json({ success: true });
   } catch (error) {

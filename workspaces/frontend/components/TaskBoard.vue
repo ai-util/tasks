@@ -110,11 +110,10 @@ const moveTask = async (taskId, newState) => {
     const task = tasks.value.find(t => t.id === taskId);
     if (task && task.state !== newState) {
       await api.put(`/api/tasks/${taskId}`, {
+        title: task.title,
+        description: task.description,
         state: newState,
-        metadata: {
-          state: newState,
-          priority: task.priority || 'medium'
-        }
+        priority: task.priority || 'medium'
       });
     }
   } catch (error) {

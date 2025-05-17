@@ -174,26 +174,18 @@ const saveTask = async () => {
     if (props.task.id) {
       const taskData = {
         title: formData.value.title,
-        state: formData.value.state,
         description: formData.value.description,
-        priority: formData.value.priority,
-        metadata: {
-          state: formData.value.state,
-          priority: formData.value.priority
-        }
+        state: formData.value.state,
+        priority: formData.value.priority
       };
       await api.put(`/api/tasks/${props.task.id}`, taskData);
       emit('saved', { type: 'success', message: 'Task erfolgreich aktualisiert' });
     } else {
       const taskData = {
         title: formData.value.title,
-        state: formData.value.state,
         description: formData.value.description,
-        priority: formData.value.priority,
-        metadata: {
-          state: formData.value.state,
-          priority: formData.value.priority
-        }
+        state: formData.value.state,
+        priority: formData.value.priority
       };
       await api.post('/api/tasks', taskData);
       emit('saved', { type: 'success', message: 'Task erfolgreich erstellt' });

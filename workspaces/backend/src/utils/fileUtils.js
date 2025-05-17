@@ -36,8 +36,13 @@ export async function parseBoardConfig(filePath) {
 
 export async function writeTaskFile(taskId, metadata, description) {
   const filePath = join(TASKS_DIR, `${taskId}.md`);
-  const content = `---\n${JSON.stringify(metadata, null, 2)}\n---\n${description}`;
-  await writeFile(filePath, content, 'utf8');
+  const yamlContent = `---
+title: ${metadata.title}
+state: ${metadata.state}
+priority: ${metadata.priority}
+---
+${description}`;
+  await writeFile(filePath, yamlContent, 'utf8');
 }
 
 export async function writeBoardConfig(config) {
