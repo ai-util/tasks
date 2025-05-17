@@ -1,6 +1,6 @@
 ---
 title: Board Konfiguration
-state: Done
+state: In Progress
 ---
 # Board-Konfiguration
 
@@ -13,18 +13,57 @@ state: Done
 
 ## Implementierung
 
-- Backend-API-Endpunkte für Board-Operationen:
+### Frontend
+- Vue.js Komponenten für Board-Darstellung
+- TailwindCSS für Styling
+- Drag-and-Drop Integration
+- WebSocket-Client für Echtzeit-Updates
+
+### Backend
+- API-Endpunkte für Board-Operationen:
   - GET `/api/board` - Board-Konfiguration abrufen
   - PUT `/api/board` - Board-Konfiguration aktualisieren
   - GET `/api/board/states` - Verfügbare States abrufen
-- Frontend-Integration über API-Client
 - WebSocket-Events für Echtzeit-Updates
-- Validierung der Board-Konfiguration
+- YAML-Parsing und -Validierung
+- Dateisystem-Operationen
 
 ## Technische Details
 
-- YAML-Parsing und -Validierung im Backend
-- Socket.io für Echtzeit-Updates
-- State-Validierung und -Verwaltung
-- Fehlerbehandlung bei ungültigen Konfigurationen
-- Automatische Aktualisierung aller betroffenen Tasks bei State-Änderungen 
+### Frontend
+- Vue.js 3 Composition API
+- TailwindCSS für Styling
+- Socket.io-Client für WebSocket
+- Axios für API-Kommunikation
+- Responsive Design
+
+### Backend
+- Node.js mit Express
+- Socket.io für WebSocket
+- YAML-Parsing mit js-yaml
+- Dateisystem-Überwachung mit chokidar
+- Validierung und Fehlerbehandlung
+
+## API-Spezifikation
+
+### GET /api/board
+```json
+{
+  "title": "Board Titel",
+  "states": ["Backlog", "In Progress", "Done"]
+}
+```
+
+### PUT /api/board
+```json
+{
+  "title": "Neuer Board Titel",
+  "states": ["Backlog", "In Progress", "Review", "Done"]
+}
+```
+
+### WebSocket Events
+- `board:updated` - Board-Konfiguration wurde aktualisiert
+- `state:added` - Neuer State wurde hinzugefügt
+- `state:removed` - State wurde entfernt
+- `state:renamed` - State wurde umbenannt 
