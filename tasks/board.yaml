@@ -5,9 +5,9 @@ states:
   - In Progress
   - Done
 additionalFields:
-  - assignee
+  - name: assignee
     type: string
-  - priority
+  - name: priority
     type: string
     options:
       - Low
