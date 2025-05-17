@@ -1,0 +1,15 @@
+title: Tasks
+states:
+  - Ideas
+  - Backlog
+  - In Progress
+  - Done
+additionalFields:
+  - assignee
+    type: string
+  - priority
+    type: string
+    options:
+      - Low
+      - Medium
+      - High
